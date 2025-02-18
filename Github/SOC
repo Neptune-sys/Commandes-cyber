@@ -1,10 +1,35 @@
 # TLDR SOC
 
 ## Websites
+
+### Malware samples
+
+- https://bazaar.abuse.ch
+  - Lot of sample of malwares
+
 ### IP address
+
 - https://spur.us/context/ 
   - Permit to verify if the IP address is likely a VPS, Proxy, VPN
 - https://www.shodan.io/
   - Permit to have lot of informations about an IP 
+- https://viz.greynoise.io/
+  - IP reputation based ( For example an IP address who has attempted to exploit a CVE in the past )
+
+### Sandbox 
+
+- https://tria.ge/
+  - Online sandbox that permit to analyse the behavior of a process ( Care public report )
+- https://any.run/
+  - Online sandbox that permit to analyse the behavior of a process ( Care public report )
+- https://www.hybrid-analysis.com/
+  - Analyse the behavior of a process / file ( Care public report )
+- https://www.virustotal.com/gui/home/upload
+  - Analyse the behavior of a process / file with multiples AV solutions ( Care public report )
+- https://metadefender.com/
+  - Similar to **Hybrid Analysis**
+- https://exchange.xforce.ibmcloud.com/
+  - Similar to metadefender 
+
 
 ## Binaries
