@@ -1,2 +1,2 @@
 # Commandes-cyber
-Commandes utiles pour le pentest
+Commandes utiles pour la défense et l'offensif dans la cybersécurité.
