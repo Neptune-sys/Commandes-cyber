@@ -29,6 +29,9 @@
 
 - Threat Fox:  A resource for sharing indicators of compromise (IOCs) associated to URL or IP.
   - https://threatfox.abuse.ch/browse/
+
+- Cisco Talos: providing threat intelligence by analyzing malware, vulnerabilities, and cyber threats to protect networks through real-time security updates and research.
+  - https://www.talosintelligence.com/
  
 
 ### Sandbox 
@@ -63,16 +66,27 @@
 
 - Threat Fox: A resource for sharing indicators of compromise (IOCs) associated to URL or IP.
   - https://threatfox.abuse.ch/browse/
+
+- Cisco Talos: providing threat intelligence by analyzing malware, vulnerabilities, and cyber threats to protect networks through real-time security updates and research.
+  - https://www.talosintelligence.com/
   
 
 ### SSL Certificates
 
 -  SSL Blacklist:  A resource for collecting and providing a blocklist for malicious SSL certificates and JA3/JA3s fingerprints.
   - https://sslbl.abuse.ch/ssl-certificates/
-  
+
+
+### Phishing 
+
+- PhishTool: facilitates the reverse engineering of phishing emails, enabling analysts to extract metadata, analyze headers, attachments, and URLs, and generate forensic reports to enhance email security.
+  - https://app.phishtool.com/sign-up/community
+
+- Cisco Talos: providing threat intelligence by analyzing malware, vulnerabilities, and cyber threats to protect networks through real-time security updates and research.
+  - https://www.talosintelligence.com/
+
 ## Binaries
 
-
-## CTI 
+ 
 
 
