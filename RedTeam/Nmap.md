@@ -1,3 +1,57 @@
+# 📡 Nmap - Détection d’Hôtes Vivants (Host Discovery)
+
+## 📍 Principe Général
+
+> **Toute réponse d’un hôte indique qu’il est en ligne.**  
+> Ces méthodes permettent d’identifier les machines actives sur un réseau sans forcément scanner les ports.
+
+---
+
+## 🔍 Types de Scans de Présence (Host Discovery)
+
+| **Type de Scan**           | **Commande Exemple**                                           | **Description** |
+|----------------------------|----------------------------------------------------------------|-----------------|
+| **ARP Scan**               | `sudo nmap -PR -sn MACHINE_IP/24`                             | Scan rapide sur réseau local. Très fiable en LAN (IPv4 uniquement). |
+| **ICMP Echo Scan**         | `sudo nmap -PE -sn MACHINE_IP/24`                             | Envoie une requête de type *ping* (ICMP Echo Request). |
+| **ICMP Timestamp Scan**    | `sudo nmap -PP -sn MACHINE_IP/24`                             | Demande l'heure système (ICMP Timestamp Request). |
+| **ICMP Address Mask Scan** | `sudo nmap -PM -sn MACHINE_IP/24`                             | Demande le masque de sous-réseau (ICMP Address Mask Request). |
+| **TCP SYN Ping Scan**      | `sudo nmap -PS22,80,443 -sn MACHINE_IP/30`                    | Envoie un SYN sur les ports indiqués (22, 80, 443 ici). |
+| **TCP ACK Ping Scan**      | `sudo nmap -PA22,80,443 -sn MACHINE_IP/30`                    | Envoie un paquet ACK → peut contourner certains pare-feux. |
+| **UDP Ping Scan**          | `sudo nmap -PU53,161,162 -sn MACHINE_IP/30`                   | Envoie des paquets UDP aux ports souvent ouverts (ex: DNS, SNMP). |
+
+---
+
+## ⚙️ Options Importantes
+
+| **Option**   | **But**                                                        |
+|--------------|----------------------------------------------------------------|
+| `-sn`        | Scan de découverte uniquement (pas de port scan).              |
+| `-n`         | Désactive la résolution DNS → plus rapide.                     |
+| `-R`         | Active la **résolution DNS inverse** pour tous les hôtes.     |
+
+> **⚠️ Note :** Si tu omets `-sn`, **Nmap effectuera un scan de ports en plus** après avoir découvert les hôtes en ligne.
+
+---
+
+## 🧠 Résumé Rapide
+
+- **LAN ?** Utilise **ARP Scan** pour plus de précision.
+- **Hors LAN ?** Utilise les **scans ICMP, TCP, ou UDP**.
+- **Cible protégée par pare-feu ?** Essaie le **TCP ACK Scan** ou le **UDP Ping Scan**.
+- **Juste les hôtes actifs ?** Ajoute toujours `-sn`.
+
+---
+
+## ✅ Bonnes pratiques
+
+- Combine plusieurs types de ping pour contourner les règles de filtrage.
+- Utilise `-n` pour accélérer la découverte (évite les requêtes DNS inutiles).
+- Utilise `/24`, `/30`, etc., pour cibler un sous-réseau.
+
+---
+
+
+
 # 🛠️ Nmap - Fiche de Mémo : Types de Scans TCP & Options Avancées
 
 ## 🔍 Types de Scans TCP
