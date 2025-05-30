@@ -50,6 +50,60 @@
 
 ---
 
+# 🔎 Nmap - Fiche Mémo : Scans TCP/UDP & Contrôle de Vitesse
+
+## 🚪 Types de Scans de Ports
+
+| **Type de Scan**    | **Commande Exemple**                 | **Description** |
+|---------------------|--------------------------------------|-----------------|
+| **TCP Connect Scan**| `nmap -sT MACHINE_IP`                | Utilise la fonction connect() du système → détectable mais fiable. |
+| **TCP SYN Scan**    | `sudo nmap -sS MACHINE_IP`           | Envoie des paquets SYN (semi-ouvert) → rapide et furtif. |
+| **UDP Scan**        | `sudo nmap -sU MACHINE_IP`           | Détecte les services UDP → plus lent et souvent partiellement fiable. |
+
+> ✅ **Ces scans permettent d’identifier les services TCP et UDP actifs sur la cible.**
+
+---
+
+## 🎯 Options de Sélection de Ports
+
+| **Option**     | **But**                                                |
+|----------------|--------------------------------------------------------|
+| `-p-`          | Scanne **tous les 65535 ports**.                       |
+| `-p1-1023`     | Scanne les ports **bien connus (privileged)**.         |
+| `-F`           | Scanne les **100 ports les plus courants** (rapide).   |
+| `-r`           | Scanne les ports **dans l’ordre numérique** (pas par défaut). |
+
+---
+
+## ⚡ Contrôle de la Vitesse et Performance
+
+| **Option**               | **But** |
+|--------------------------|--------|
+| `-T0` à `-T5`            | **Réglage de timing** (0 = le plus lent, 5 = le plus agressif). |
+| `--max-rate 50`          | Limite à **50 paquets/sec max** → utile pour discrétion. |
+| `--min-rate 15`          | Envoie **au moins 15 paquets/sec** → garantit un rythme minimum. |
+| `--min-parallelism 100`  | Force **100 sondes parallèles minimum** → booste la rapidité. |
+
+> ⚠️ Attention : les options trop agressives peuvent provoquer du **bruit** sur le réseau ou faire planter les services ciblés.
+
+---
+
+## 🧠 Recommandations
+
+- Pour un scan **rapide** : `nmap -sS -F -T4`
+- Pour un scan **complet** : `sudo nmap -sS -sU -p- -T3`
+- Pour un scan **discret** : `sudo nmap -sS --max-rate 20 -T1`
+
+---
+
+## ✅ À retenir
+
+- **TCP Connect (-sT)** = plus visible, pas besoin de root.
+- **TCP SYN (-sS)** = plus furtif, nécessite sudo/root.
+- **UDP (-sU)** = indispensable pour services comme DNS, SNMP, mais souvent lent.
+
+---
+
 
 
 # 🛠️ Nmap - Fiche de Mémo : Types de Scans TCP & Options Avancées
