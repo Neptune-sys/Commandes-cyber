@@ -154,5 +154,76 @@
 - Les options comme `--spoof-mac`, `-D`, ou `-sI` sont utiles pour **éviter la détection** ou **masquer l'identité de l'attaquant**.
 
 ---
+# 🧠 Nmap Avancé – Scripts NSE, Détection & Sauvegarde des Résultats 🔍
+
+📍 **Nmap ne fait pas que scanner des ports...**  
+Il peut **détecter des services, des failles, exécuter des scripts**, etc.
+
+---
+
+## 📜 Scripts Nmap (NSE – Nmap Scripting Engine)
+
+📂 Les scripts sont stockés dans : `/usr/share/nmap/scripts`
+
+🔢 Il en existe **près de 600**, dont **130+ liés à HTTP** !
+
+📌 Utilisation :
+```bash
+nmap --script=default target.com      # Scripts par défaut
+nmap -sC target.com                   # Équivalent à --script=default
+nmap --script=http-* target.com      # Tous les scripts http
+nmap --script=vuln target.com        # Scripts de détection de vulnérabilités
+```
+
+---
+
+## 📂 Catégories de Scripts
+
+| 🔠 Catégorie     | 📖 Description                                                  |
+|------------------|------------------------------------------------------------------|
+| `auth`           | Scripts liés à l'authentification                                |
+| `broadcast`      | Découverte d’hôtes via messages broadcast                        |
+| `brute`          | Attaques par force brute sur des logins                          |
+| `default`        | Scripts par défaut (équivalent à `-sC`)                          |
+| `discovery`      | Infos accessibles (tables BDD, noms DNS, etc.)                   |
+| `dos`            | Détection de vulnérabilités DoS                                  |
+| `exploit`        | Tentatives d’exploitation de services                            |
+| `external`       | Utilisation de services tiers (GeoPlugin, VirusTotal, etc.)      |
+| `fuzzer`         | Fuzzing de services                                              |
+| `intrusive`      | Scripts agressifs (force brute, exploits)                        |
+| `malware`        | Recherche de portes dérobées                                     |
+| `safe`           | Scripts sûrs, non destructifs                                    |
+| `version`        | Détection de versions de services                                |
+| `vuln`           | Recherche de vulnérabilités connues                              |
+
+---
+
+## 🕵️ Détection système et services
+
+| ⚙️ Option                    | 📖 Signification                                           |
+|-----------------------------|------------------------------------------------------------|
+| `-sV`                       | Déterminer les services/versions sur les ports ouverts     |
+| `--version-light`           | Tester les sondes les plus probables                       |
+| `--version-all`             | Tester toutes les sondes disponibles                       |
+| `-O`                        | Détection du système d’exploitation                        |
+| `--traceroute`              | Exécuter un traceroute vers la cible                       |
+| `--script=SCRIPTS`          | Exécuter des scripts NSE spécifiques                       |
+| `-sC` ou `--script=default` | Exécuter les scripts de la catégorie "default"             |
+| `-A`                        | Tout en un : `-sV -O -sC --traceroute`                     |
+
+---
+
+## 💾 Sauvegarde des résultats de scan
+
+| 💾 Option  | 📄 Format de sortie                          |
+|-----------|----------------------------------------------|
+| `-oN`     | Format normal lisible                        |
+| `-oG`     | Format grepable (pour parsers/regex)        |
+| `-oX`     | Format XML (pour outils automatisés)        |
+| `-oA`     | Génère les trois formats ci-dessus en un coup |
+
+---
+
+💡 **Tips :** Combine `-A -oA scan_result` pour un scan complet **+** sauvegarde propre 🔥
 
 
