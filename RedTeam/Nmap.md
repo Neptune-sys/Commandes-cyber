@@ -169,11 +169,35 @@ Il peut **détecter des services, des failles, exécuter des scripts**, etc.
 
 📌 Utilisation :
 ```bash
-nmap --script=default target.com      # Scripts par défaut
-nmap -sC target.com                   # Équivalent à --script=default
-nmap --script=http-* target.com      # Tous les scripts http
-nmap --script=vuln target.com        # Scripts de détection de vulnérabilités
+nmap --script=default target.com          # Scripts par défaut
+nmap -sC target.com                       # Équivalent à --script=default
+nmap --script=http-* target.com          # Tous les scripts http
+nmap --script=vuln target.com            # Scripts de détection de vulnérabilités
+nmap --script="ftp*" target.com          # Tous les scripts liés à FTP (ex: ftp-brute)
+nmap --script="http-date" target.com     # Script spécifique (ex: date HTTP serveur)
 ```
+
+🔎 Pour savoir ce que fait un script :
+```bash
+less /usr/share/nmap/scripts/http-date.nse
+```
+ou ouvrir dans un éditeur de texte.
+
+📌 **Exemple avec http-date** :
+```bash
+sudo nmap -sS -n --script "http-date" 10.10.172.183
+```
+Ce script :
+> “Gets the date from HTTP-like services. Also, it prints how much the date differs from local time…”
+
+⚠️ **Attention** :
+- Certains scripts sont **intrusifs** ou très ciblés.
+- Évitez d’utiliser des scripts au hasard, cela peut **faire perdre du temps** voire **perturber un service**.
+- Toujours avoir **l’autorisation** de scanner une cible.
+
+📥 **Scripts externes** :
+- Il est possible d’**écrire ses propres scripts NSE** ou d’en **télécharger en ligne**.
+- ⚠️ Ne téléchargez pas de scripts depuis des sources **non fiables** : risque de sécurité !
 
 ---
 
@@ -225,5 +249,6 @@ nmap --script=vuln target.com        # Scripts de détection de vulnérabilités
 ---
 
 💡 **Tips :** Combine `-A -oA scan_result` pour un scan complet **+** sauvegarde propre 🔥
+
 
 
