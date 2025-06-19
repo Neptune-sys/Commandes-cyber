@@ -91,4 +91,98 @@ Maîtrise les options de recherche et apprends à **interpréter les résultats*
 ✅ **Résumé :**
 Combine ces opérateurs et sources pour faire du **reconnaissance passive** efficacement et sans bruit inutile.
 
+# 🌐 WHOIS, DNS & Specialized Search Cheat Sheet
+
+## 🗂️ WHOIS History
+
+- **But :** Obtenir l’historique des propriétaires de domaines.
+- **Outil :** [WHOIS History](https://whois-history.whoisxmlapi.com/)
+  - 🔍 Utile si le propriétaire initial n’a pas utilisé la confidentialité WHOIS.
+
+---
+
+## 🧩 Services DNS Avancés
+
+### 🔍 **ViewDNS.info**
+- **Fonction principale :** Reverse IP Lookup.
+  - ✅ À partir d’un **IP** ou domaine ➜ trouve **tous les domaines** utilisant la même IP.
+  - 💡 Intérêt : découvrir des sites hébergés sur le même serveur (utile pour du shared hosting).
+
+### 🧑‍💻 **Threat Intelligence Platform**
+- **Fonction principale :** Rapport enrichi WHOIS + DNS + sécurité.
+  - ✅ Fournit :
+    - Résolution de domaines en IPv4/IPv6.
+    - Vérification de malware.
+    - Liste des autres domaines sur la même IP.
+  - 💡 Plus lisible qu’un simple `whois` ou `dig`.
+
+---
+
+## 🕵️ Specialized Search Engines
+
+### 🔬 **Censys**
+- **But :** Obtenir des infos détaillées sur IPs & domaines.
+  - ✅ Montre :
+    - Ports ouverts.
+    - Certificats SSL.
+    - Organisation propriétaire de l’IP.
+  - ⚠️ Attention à bien vérifier que l’IP appartient à la cible pour éviter de scanner hors périmètre.
+
+### 🚀 **Shodan**
+- **But :** Scanner l’Internet pour trouver des services exposés.
+  - ✅ Depuis la ligne de commande :
+    1. **Configurer l’API :**  
+       ```bash
+       shodan init API_KEY
+       ```
+    2. **Chercher un host :**  
+       ```bash
+       shodan host IP_ADDRESS
+       ```
+       Affiche :
+       - Localisation géographique.
+       - Organisation propriétaire.
+       - Ports ouverts + versions SSL/TLS.
+  - 📌 Exemple :
+    ```bash
+    shodan host 172.67.212.249
+    ```
+    **Résultat typique :**
+    ```
+    City: San Francisco
+    Country: United States
+    Organisation: Cloudflare, Inc.
+    Ports:
+      80/tcp
+      443/tcp (TLSv1.2, TLSv1.3)
+      2086/tcp
+      2087/tcp
+      8080/tcp
+    ```
+
+---
+
+## ✅ Points Clés
+
+- 🗝️ **WHOIS History** : retrace les anciens propriétaires.
+- 🗝️ **ViewDNS.info** : trouve d’autres sites partageant une IP.
+- 🗝️ **Threat Intelligence Platform** : fait WHOIS + DNS + vérification sécurité de façon visuelle.
+- 🗝️ **Censys** : détaille IP/domaines + ports + certificats.
+- 🗝️ **Shodan** : liste ports ouverts & services exposés sur Internet.
+
+---
+
+## 🔗 Ressources
+
+- [WHOIS History](https://whois-history.whoisxmlapi.com/)
+- [ViewDNS.info](https://viewdns.info/)
+- [Threat Intelligence Platform](https://threatintelligenceplatform.com/)
+- [Censys](https://censys.io/)
+- [Shodan](https://www.shodan.io/)
+
+---
+
+⚠️ **Conseil :** Toujours rester dans le cadre légal et contractuel lors de l’utilisation de ces outils.
+
+
 
